@@ -1,10 +1,7 @@
 /* (C)2020 */
 package saps.common.core.model;
 
-import java.io.File;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -15,14 +12,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SapsTask implements Serializable {
+public class SapsTask implements Serializable, BuilderCommand {
 
   private static final Logger LOGGER = Logger.getLogger(SapsTask.class);
 
-  private static final String DATE_FORMAT = "yyyy-MM-dd";
-
   private static final String JSON_HEADER_ID = "id";
   private static final String JSON_HEADER_REQUIREMENTS = "requirements";
+  private static final String JSON_HEADER_ENV_VARS = "envVars";
   private static final String JSON_HEADER_COMMANDS = "commands";
   private static final String JSON_HEADER_METADATA = "metadata";
 
@@ -30,52 +26,27 @@ public class SapsTask implements Serializable {
   private Map<String, String> requirements;
   private List<String> commands;
   private Map<String, String> metadata;
+  private Map<String, String> envVars;
 
   public SapsTask(
       String id,
       Map<String, String> requirements,
       List<String> commands,
-      Map<String, String> metadata) {
+      Map<String, String> metadata,
+      Map<String, String> envVars) {
     this.id = id;
     this.requirements = requirements;
     this.commands = commands;
     this.metadata = metadata;
+    this.envVars = envVars;
+  }
+
+  public SapsTask(String id, Map<String, String> requirements) {
+    this(id, requirements, new LinkedList<String>(), new HashMap<String, String>(), new HashMap<String, String>());
   }
 
   public SapsTask(String id) {
-    this(
-        id, new HashMap<String, String>(), new LinkedList<String>(), new HashMap<String, String>());
-  }
-
-  public static List<String> buildCommandList(SapsImage task, String phase) {
-    // info shared dir between host (with NFS) and container
-    // ...
-
-    DateFormat dateFormater = new SimpleDateFormat(DATE_FORMAT);
-    String taskDir = task.getTaskId();
-    String rootPath = "/nfs/" + taskDir;
-    String phaseDirPath = "/nfs/" + taskDir + File.separator + phase;
-    List<String> commands = new LinkedList<String>();
-
-    // Remove dirs
-    String removeThings = String.format("rm -rf %s", phaseDirPath);
-    commands.add(removeThings);
-
-    // Create dirs
-    String createDirectory = String.format("mkdir -p %s", phaseDirPath);
-    commands.add(createDirectory);
-
-    // Run command
-    String runCommand =
-        String.format(
-            "bash /home/saps/run.sh %s %s %s %s",
-            rootPath,
-            task.getDataset(),
-            task.getRegion(),
-            dateFormater.format(task.getImageDate()));
-    commands.add(runCommand);
-
-    return commands;
+    this(id, new HashMap<String, String>());
   }
 
   public String getId() {
@@ -90,12 +61,24 @@ public class SapsTask implements Serializable {
     return requirements;
   }
 
+  public Map<String, String> getEnvVars() {
+    return envVars;
+  }
+
   public void setRequirements(Map<String, String> requirements) {
     this.requirements = requirements;
   }
 
+  public void setEnvVars(Map<String, String> envVars) {
+    this.envVars = envVars;
+  }
+
   public void addRequirement(String key, String value) {
     this.requirements.put(key, value);
+  }
+
+  public void addEnvVar(String key, String value) {
+    this.envVars.put(key, value);
   }
 
   public List<String> getCommands() {
@@ -132,6 +115,11 @@ public class SapsTask implements Serializable {
         requirements.put(entry.getKey(), entry.getValue());
       sapsTask.put(JSON_HEADER_REQUIREMENTS, requirements);
 
+      JSONObject envVars = new JSONObject();
+      for (Map.Entry<String, String> entry : this.getEnvVars().entrySet())
+        requirements.put(entry.getKey(), entry.getValue());
+      sapsTask.put(JSON_HEADER_ENV_VARS, envVars);
+
       JSONArray commands = new JSONArray();
       for (String command : this.getCommands()) commands.put(command);
       sapsTask.put(JSON_HEADER_COMMANDS, commands);
@@ -158,6 +146,13 @@ public class SapsTask implements Serializable {
       sapsTask.addRequirement(key, requirements.optString(key));
     }
 
+    JSONObject envVars = taskJSON.optJSONObject(JSON_HEADER_ENV_VARS);
+    Iterator<?> envVarsKeys = envVars.keys();
+    while (envVarsKeys.hasNext()) {
+      String key = (String) envVarsKeys.next();
+      sapsTask.addEnvVar(key, envVars.optString(key));
+    }
+
     JSONArray commands = taskJSON.optJSONArray("commands");
     for (int i = 0; i < commands.length(); i++)
       try {
@@ -173,5 +168,10 @@ public class SapsTask implements Serializable {
       sapsTask.addMetadata(key, metadata.optString(key));
     }
     return sapsTask;
+  }
+
+  @Override
+  public List<String> buildCommands(SapsImage task, String phase) {
+    return null;
   }
 }

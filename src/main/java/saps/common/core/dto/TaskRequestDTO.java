@@ -1,6 +1,7 @@
 /* (C)2020 */
 package saps.common.core.dto;
 
+import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ public class TaskRequestDTO implements Serializable {
 
   private String label;
   private Map<String, String> requirements;
+  @SerializedName("env_vars")
+  private Map<String, String> envVars;
   private List<String> commands;
   private Map<String, String> metadata;
 
@@ -18,11 +21,13 @@ public class TaskRequestDTO implements Serializable {
       String label,
       Map<String, String> requirements,
       List<String> commands,
-      Map<String, String> metadata) {
+      Map<String, String> metadata,
+      Map<String, String> envVars) {
     this.label = label;
     this.requirements = requirements;
     this.commands = commands;
     this.metadata = metadata;
+    this.envVars = envVars;
   }
 
   // empty constructor required for Gson.
@@ -34,6 +39,10 @@ public class TaskRequestDTO implements Serializable {
 
   public Map<String, String> getRequirements() {
     return requirements;
+  }
+
+  public Map<String, String> getEnvVars() {
+    return envVars;
   }
 
   public Map<String, String> getMetadata() {
@@ -50,6 +59,8 @@ public class TaskRequestDTO implements Serializable {
         + commands
         + ", metadata="
         + metadata
+        + ", envVars="
+        + envVars
         + "]";
   }
 }
