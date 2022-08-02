@@ -1,11 +1,11 @@
 /* (C)2020 */
-package saps.common.core.storage.nfs;
+package saps.common.core.storage.permanent.nfs;
 
-import static saps.common.core.storage.PermanentStorageConstants.INPUTDOWNLOADING_DIR;
-import static saps.common.core.storage.PermanentStorageConstants.PREPROCESSING_DIR;
-import static saps.common.core.storage.PermanentStorageConstants.PROCESSING_DIR;
-import static saps.common.core.storage.nfs.NfsPermanentStorage.NFS_STORAGE_TASK_DIR_PATTERN;
-import static saps.common.core.storage.nfs.NfsPermanentStorage.NFS_STORAGE_TASK_URL_PATTERN;
+import static saps.common.core.storage.permanent.nfs.NfsPermanentStorage.NFS_STORAGE_TASK_DIR_PATTERN;
+import static saps.common.core.storage.permanent.nfs.NfsPermanentStorage.NFS_STORAGE_TASK_URL_PATTERN;
+import static saps.common.core.storage.permanent.PermanentStorageConstants.INPUTDOWNLOADING_DIR;
+import static saps.common.core.storage.permanent.PermanentStorageConstants.PREPROCESSING_DIR;
+import static saps.common.core.storage.permanent.PermanentStorageConstants.PROCESSING_DIR;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,10 +17,10 @@ import org.junit.Before;
 import org.junit.Test;
 import saps.common.core.model.SapsImage;
 import saps.common.core.model.enums.ImageTaskState;
-import saps.common.core.storage.AccessLink;
-import saps.common.core.storage.PermanentStorage;
 import saps.common.core.storage.exceptions.InvalidPropertyException;
 import saps.common.core.storage.exceptions.TaskNotFoundException;
+import saps.common.core.storage.permanent.AccessLink;
+import saps.common.core.storage.permanent.PermanentStorage;
 import saps.common.utils.SapsPropertiesConstants;
 
 public class NfsPermanentStorageTest {
@@ -83,7 +83,7 @@ public class NfsPermanentStorageTest {
   }
 
   @Test
-  public void testArchive() throws InvalidPropertyException, IOException {
+  public void testArchive() throws Exception {
     properties.setProperty(
         SapsPropertiesConstants.NFS_PERMANENT_STORAGE_PATH, MOCK_NFS_STORAGE_PATH);
     PermanentStorage permanentStorage = new NfsPermanentStorage(properties);
@@ -113,7 +113,7 @@ public class NfsPermanentStorageTest {
   }
 
   @Test
-  public void testArchiveOnDebugMode() throws InvalidPropertyException, IOException {
+  public void testArchiveOnDebugMode() throws Exception {
     properties.setProperty(SapsPropertiesConstants.SAPS_DEBUG_MODE, DEBUG_MODE_TRUE);
     properties.setProperty(
         SapsPropertiesConstants.NFS_PERMANENT_STORAGE_PATH, MOCK_NFS_STORAGE_PATH);
@@ -147,7 +147,7 @@ public class NfsPermanentStorageTest {
   }
 
   @Test(expected = IOException.class)
-  public void testArchiveNonExistentNfsStoragePath() throws IOException, InvalidPropertyException {
+  public void testArchiveNonExistentNfsStoragePath() throws Exception {
     properties.setProperty(
         SapsPropertiesConstants.NFS_PERMANENT_STORAGE_PATH, NONEXISTENT_NFS_STORAGE_PATH);
     PermanentStorage permanentStorage = new NfsPermanentStorage(properties);
@@ -261,7 +261,7 @@ public class NfsPermanentStorageTest {
   }
 
   @Test(expected = IOException.class)
-  public void testDeleteNonExistentTaskDir() throws InvalidPropertyException, IOException {
+  public void testDeleteNonExistentTaskDir() throws Exception {
     properties.setProperty(
         SapsPropertiesConstants.NFS_PERMANENT_STORAGE_PATH, MOCK_NFS_STORAGE_PATH);
     String fakeTaskId = "fake";
@@ -292,7 +292,7 @@ public class NfsPermanentStorageTest {
 
   @Test
   public void testGenerateAccessLinksTaskDir()
-      throws IOException, TaskNotFoundException, InvalidPropertyException {
+      throws Exception {
     SapsImage task =
         new SapsImage(
             "task-id",

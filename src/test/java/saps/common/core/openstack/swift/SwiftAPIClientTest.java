@@ -1,5 +1,5 @@
 /* (C)2020 */
-package saps.common.core.storage.swift;
+package saps.common.core.openstack.swift;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.util.Properties;
 import org.json.JSONException;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import saps.common.core.openstask.swift.SwiftAPIClient;
 import saps.common.core.storage.exceptions.InvalidPropertyException;
 import saps.common.utils.SapsPropertiesConstants;
 
@@ -30,6 +32,6 @@ public class SwiftAPIClientTest {
     String containerName =
         properties.getProperty(SapsPropertiesConstants.Openstack.ObjectStoreService.CONTAINER_NAME);
     String path = properties.getProperty(SapsPropertiesConstants.PERMANENT_STORAGE_TASKS_DIR);
-    client.listFiles(containerName, path);
+    client.listObjects(containerName, path);
   }
 }

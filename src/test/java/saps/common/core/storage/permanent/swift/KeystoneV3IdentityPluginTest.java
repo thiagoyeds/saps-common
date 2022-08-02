@@ -1,5 +1,5 @@
 /* (C)2020 */
-package saps.common.core.storage.swift;
+package saps.common.core.storage.permanent.swift;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -8,6 +8,9 @@ import java.io.FileInputStream;
 import java.util.Properties;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import saps.common.core.openstask.token.IdentityToken;
+import saps.common.core.openstask.token.KeystoneV3IdentityRequestHelper;
 import saps.common.utils.SapsPropertiesConstants;
 
 public class KeystoneV3IdentityPluginTest {
