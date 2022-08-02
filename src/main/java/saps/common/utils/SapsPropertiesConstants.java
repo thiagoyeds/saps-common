@@ -50,6 +50,7 @@ public class SapsPropertiesConstants {
   // Execution mode constants
   public static final String SAPS_DEBUG_MODE = "saps_debug_mode";
   public static final String SAPS_PERMANENT_STORAGE_TYPE = "saps_permanent_storage_type";
+  public static final String SAPS_TEMPORARY_STORAGE_TYPE = "saps_temporary_storage_type";
   public static final String PERMANENT_STORAGE_BASE_URL = "permanent_storage_base_url";
 
   // Properties file constants
@@ -68,7 +69,9 @@ public class SapsPropertiesConstants {
   public static final String TEMPORARY_STORAGE_TYPE = "saps_temporary_storage_type";
 
   public static final String SWIFT_TEMPORARY_STORAGE_OPENSTACK_AUTH_URL = "swift_temporary_storage_openstack_auth_url";
+  public static final String SWIFT_TEMPORARY_STORAGE_OPENSTACK_PROJECT_ID = "swift_temporary_storage_openstack_project_id";
   public static final String SWIFT_TEMPORARY_STORAGE_OPENSTACK_PROJECT_NAME = "swift_temporary_storage_openstack_project_name";
+  public static final String SWIFT_TEMPORARY_STORAGE_OPENSTACK_USER_ID = "swift_temporary_storage_openstack_user_id";
   public static final String SWIFT_TEMPORARY_STORAGE_OPENSTACK_USER_NAME = "swift_temporary_storage_openstack_user_name";
   public static final String SWIFT_TEMPORARY_STORAGE_OPENSTACK_USER_PASSWORD = "swift_temporary_storage_openstack_user_password";
   public static final String SWIFT_TEMPORARY_STORAGE_OPENSTACK_DOMAIN_NAME = "swift_temporary_storage_openstack_domain_name";
