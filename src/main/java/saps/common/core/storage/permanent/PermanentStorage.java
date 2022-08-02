@@ -1,5 +1,5 @@
 /* (C)2020 */
-package saps.common.core.storage;
+package saps.common.core.storage.permanent;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public interface PermanentStorage {
    * @throws FileNotFoundException if the task directory not exists on temp storage
    * @throws IOException if failed on copy any file to permanent storage
    */
-  boolean archive(SapsImage task) throws IOException;
+  boolean archive(SapsImage task) throws Exception;
 
   /**
    * This function delete all files from task in Permanent Storage.
@@ -36,13 +36,14 @@ public interface PermanentStorage {
    * @return boolean representation, success (true) or failure (false) to delete files
    * @throws IOException if failed on copy any file to permanent storage
    */
-  boolean delete(SapsImage task) throws IOException;
+  boolean delete(SapsImage task) throws Exception;
 
   /**
    * @param task The task that will have its data deleted.
    * @return Empty list if the task not contains files
    * @throws IOException If a request error occurs with a service or system
    * @throws TaskNotFoundException If task was not found
+   * @throws Exception
    */
-  List<AccessLink> generateAccessLinks(SapsImage task) throws TaskNotFoundException, IOException;
+  List<AccessLink> generateAccessLinks(SapsImage task) throws TaskNotFoundException, IOException, Exception;
 }

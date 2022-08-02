@@ -1,5 +1,5 @@
 /* (C)2020 */
-package saps.common.core.storage;
+package saps.common.core.storage.permanent;
 
 import java.util.Objects;
 
