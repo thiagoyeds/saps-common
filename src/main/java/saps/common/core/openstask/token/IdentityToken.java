@@ -1,5 +1,5 @@
 /* (C)2020 */
-package saps.common.core.storage.swift;
+package saps.common.core.openstask.token;
 
 public class IdentityToken {
 
