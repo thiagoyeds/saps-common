@@ -1,10 +1,10 @@
 /* (C)2020 */
-package saps.common.core.storage.nfs;
+package saps.common.core.storage.permanent.nfs;
 
-import static saps.common.core.storage.PermanentStorageConstants.INPUTDOWNLOADING_DIR;
-import static saps.common.core.storage.PermanentStorageConstants.PREPROCESSING_DIR;
-import static saps.common.core.storage.PermanentStorageConstants.PROCESSING_DIR;
-import static saps.common.core.storage.PermanentStorageConstants.SAPS_TASK_STAGE_DIR_PATTERN;
+import static saps.common.core.storage.permanent.PermanentStorageConstants.INPUTDOWNLOADING_DIR;
+import static saps.common.core.storage.permanent.PermanentStorageConstants.PREPROCESSING_DIR;
+import static saps.common.core.storage.permanent.PermanentStorageConstants.PROCESSING_DIR;
+import static saps.common.core.storage.permanent.PermanentStorageConstants.SAPS_TASK_STAGE_DIR_PATTERN;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,9 +16,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import saps.common.core.model.SapsImage;
 import saps.common.core.model.enums.ImageTaskState;
-import saps.common.core.storage.AccessLink;
-import saps.common.core.storage.PermanentStorage;
 import saps.common.core.storage.exceptions.InvalidPropertyException;
+import saps.common.core.storage.permanent.AccessLink;
+import saps.common.core.storage.permanent.PermanentStorage;
 import saps.common.utils.SapsPropertiesConstants;
 import saps.common.utils.SapsPropertiesUtil;
 
