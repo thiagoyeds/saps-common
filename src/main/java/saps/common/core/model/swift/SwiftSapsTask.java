@@ -31,6 +31,10 @@ public class SwiftSapsTask extends SapsTask {
     String createDirectory = String.format("mkdir -p %s %s", taskDir, phaseDirPath);
     commands.add(createDirectory);
 
+    String startTimestampFile = String.format("%s/start-timestamp.log", phaseDirPath);
+    String startTimestamp = "date +%s > " + startTimestampFile;
+    commands.add(startTimestamp);
+
     // Get previous stage outputs
     String getPreviousStageOutputFilesCommand = String.format("python getter.py %s > %s/get-previous-results.log", taskDir, phaseDirPath);
     commands.add(getPreviousStageOutputFilesCommand);
@@ -48,6 +52,17 @@ public class SwiftSapsTask extends SapsTask {
     // Send results
     String sendOutputFileCommand = String.format("python sender.py %s > %s/send-result.log", phaseDirPath, phaseDirPath);
     commands.add(sendOutputFileCommand);
+
+    String rmAllFiles = String.format("rm -rf %s/*", phaseDirPath);
+    commands.add(rmAllFiles);
+
+    String endTimestampFile = String.format("%s/end-timestamp.log", phaseDirPath);
+    String endTimestamp = "date +%s > " + endTimestampFile;
+    commands.add(endTimestamp);
+
+    // Send end timestamp file
+    String sendOnlyEndTimestampFileCommand = String.format("python sender.py %s > %s/send-result.log", phaseDirPath, phaseDirPath);
+    commands.add(sendOnlyEndTimestampFileCommand);
 
     return commands;
   }

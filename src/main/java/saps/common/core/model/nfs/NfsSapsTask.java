@@ -39,6 +39,10 @@ public class NfsSapsTask extends SapsTask {
     String createDirectory = String.format("mkdir -p %s", phaseDirPath);
     commands.add(createDirectory);
 
+    String startTimestampFile = String.format("%s/start-timestamp.log", phaseDirPath);
+    String startTimestamp = "date +%s > " + startTimestampFile;
+    commands.add(startTimestamp);
+
     // Run command
     String runCommand =
         String.format(
@@ -48,6 +52,10 @@ public class NfsSapsTask extends SapsTask {
             task.getRegion(),
             dateFormater.format(task.getImageDate()));
     commands.add(runCommand);
+
+    String endTimestampFile = String.format("%s/end-timestamp.log", phaseDirPath);
+    String endTimestamp = "date +%s > " + endTimestampFile;
+    commands.add(endTimestamp);
 
     return commands;
   }
